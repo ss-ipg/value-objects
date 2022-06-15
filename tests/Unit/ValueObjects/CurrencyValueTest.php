@@ -64,9 +64,5 @@ class CurrencyValueTest extends TestCase
         $currency->setLocale('en-GB');
         $this->assertEquals('£1,234.56', $currency->formatted);
         $this->assertEquals(1234.56, $currency->value);
-
-        $currency->setLocale('bad-locale');
-        $this->assertEquals('¤1,234.56', $currency->formatted);
-        $this->assertEquals(1234.56, $currency->value);
     }
 }
