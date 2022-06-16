@@ -49,6 +49,11 @@ abstract class AbstractValue implements ValueInterface
         return $this;
     }
 
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
+
     public function reformatValue(): self
     {
         $this->formatted = $this->setFormattedValue($this->value);
