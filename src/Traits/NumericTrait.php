@@ -1,32 +1,32 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Traits;
 
-class NumberValue extends AbstractValue
+use SecureSpace\ValueObjects\Values\ValueInterface;
+
+trait NumericTrait
 {
-    public int $precision = 0;
-
-    public function eq(NumberValue $n): bool
+    public function eq(ValueInterface $n): bool
     {
         return $this->value === $n->value;
     }
 
-    public function gt(NumberValue $n): bool
+    public function gt(ValueInterface $n): bool
     {
         return $this->value > $n->value;
     }
 
-    public function gte(NumberValue $n): bool
+    public function gte(ValueInterface $n): bool
     {
         return $this->value >= $n->value;
     }
 
-    public function isDivisibleBy(NumberValue $n): bool
+    public function isDivisibleBy(ValueInterface $n): bool
     {
         return ! ($n->value === 0) && $this->value % $n->value === 0;
     }
 
-    public function isEqual(NumberValue $n): bool
+    public function isEqual(ValueInterface $n): bool
     {
         return $this->eq($n);
     }
@@ -36,22 +36,22 @@ class NumberValue extends AbstractValue
         return $this->value % 2 === 0;
     }
 
-    public function isGreaterThan(NumberValue $n): bool
+    public function isGreaterThan(ValueInterface $n): bool
     {
         return $this->gt($n);
     }
 
-    public function isGreaterThanOrEqual(NumberValue $n): bool
+    public function isGreaterThanOrEqual(ValueInterface $n): bool
     {
         return $this->gte($n);
     }
 
-    public function isLessThan(NumberValue $n): bool
+    public function isLessThan(ValueInterface $n): bool
     {
         return $this->lt($n);
     }
 
-    public function isLessThanOrEqual(NumberValue $n): bool
+    public function isLessThanOrEqual(ValueInterface $n): bool
     {
         return $this->lte($n);
     }
@@ -76,31 +76,13 @@ class NumberValue extends AbstractValue
         return is_int($this->value);
     }
 
-    public function lt(NumberValue $n): bool
+    public function lt(ValueInterface $n): bool
     {
         return $this->value < $n->value;
     }
 
-    public function lte(NumberValue $n): bool
+    public function lte(ValueInterface $n): bool
     {
         return $this->value <= $n->value;
-    }
-
-    public function setPrecision(int $precision): self
-    {
-        $this->precision = $precision;
-        $this->reformatValue();
-
-        return $this;
-    }
-
-    public function supports($value): bool
-    {
-        return is_float($value) || is_int($value);
-    }
-
-    public function toString(): string
-    {
-        return number_format($this->value, $this->precision);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Values;
 
 use NumberFormatter;
 
-class CurrencyValue extends NumberValue
+class CurrencyValue extends FloatValue
 {
     public string $locale = 'en-US';
 

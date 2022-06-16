@@ -1,15 +1,15 @@
 <?php
 
-namespace SecureSpace\Tests\Unit\ValueObjects;
+namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\NumberValue;
+use SecureSpace\ValueObjects\Values\IntegerValue;
 
 class AbstractValueTest extends TestCase
 {
     public function testGetValue(): void
     {
-        $number = NumberValue::from(617);
+        $number = IntegerValue::from(617);
         $this->assertEquals(617, $number->getValue());
 
         $number->setValue(821);
@@ -18,7 +18,7 @@ class AbstractValueTest extends TestCase
 
     public function testSetValue(): void
     {
-        $number = NumberValue::from(721);
+        $number = IntegerValue::from(721);
         $this->assertEquals(721, $number->value);
         $this->assertEquals('721', $number->formatted);
 
@@ -29,20 +29,20 @@ class AbstractValueTest extends TestCase
 
     public function testToArray(): void
     {
-        $number = NumberValue::from(186_282)->toArray();
+        $number = IntegerValue::from(186_282)->toArray();
         $this->assertEquals(186282, $number['value']);
         $this->assertEquals(186_282, $number['value']);
         $this->assertEquals('186,282', $number['formatted']);
 
-        $number = NumberValue::from(1016)
-            ->formatWith(fn(NumberValue $n) => "Total: $n adventurous anemones")
+        $number = IntegerValue::from(1016)
+            ->formatWith(fn(IntegerValue $n) => "Total: $n adventurous anemones")
             ->toArray()
         ;
         $this->assertEquals(1016, $number['value']);
         $this->assertEquals('Total: 1,016 adventurous anemones', $number['formatted']);
 
-        $number = NumberValue::from(9876)
-            ->formatWith(fn(NumberValue $i) => 'Prefix: ' . number_format(num: $i->value, thousands_separator: '_'))
+        $number = IntegerValue::from(9876)
+            ->formatWith(fn(IntegerValue $i) => 'Prefix: ' . number_format(num: $i->value, thousands_separator: '_'))
             ->toArray()
         ;
         $this->assertEquals('Prefix: 9_876', $number['formatted']);

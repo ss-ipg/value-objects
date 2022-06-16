@@ -1,9 +1,14 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Values;
 
 class InfinityValue extends AbstractValue
 {
+    public static function cast($value): mixed
+    {
+        return INF;
+    }
+
     public static function from($value): static
     {
         return new self(INF);

@@ -1,9 +1,9 @@
 <?php
 
-namespace SecureSpace\Tests\Unit\ValueObjects;
+namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\CurrencyValue;
+use SecureSpace\ValueObjects\Values\CurrencyValue;
 
 class CurrencyValueTest extends TestCase
 {
@@ -29,7 +29,7 @@ class CurrencyValueTest extends TestCase
         $this->assertEquals('', $currency->formatted);
         $this->assertEquals(null, $currency->value);
 
-        $currency = CurrencyValue::from(0);
+        $currency = CurrencyValue::from(0.0);
         $this->assertEquals('$0.00', $currency->formatted);
         $this->assertEquals(0.00, $currency->value);
 
@@ -37,7 +37,7 @@ class CurrencyValueTest extends TestCase
         $this->assertEquals('$1.00', $currency->formatted);
         $this->assertEquals(1.00, $currency->value);
 
-        $currency = CurrencyValue::from(234726);
+        $currency = CurrencyValue::from(234726.0);
         $this->assertEquals('$234,726.00', $currency->formatted);
         $this->assertEquals(234726, $currency->value);
 
