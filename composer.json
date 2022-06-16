@@ -15,12 +15,12 @@
   },
   "autoload": {
     "psr-4": {
-      "SecureSpace\\": "src"
+      "SecureSpace\\ValueObjects\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "SecureSpace\\Tests\\": "tests/"
+      "SecureSpace\\ValueObjects\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "stable",

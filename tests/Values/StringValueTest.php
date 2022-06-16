@@ -1,17 +1,17 @@
 <?php
 
-namespace SecureSpace\Tests\Unit\ValueObjects;
+namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\StringValue;
+use SecureSpace\ValueObjects\Values\NullValue;
+use SecureSpace\ValueObjects\Values\StringValue;
 
 class StringValueTest extends TestCase
 {
     public function testFrom(): void
     {
         $string = StringValue::from(null);
-        $this->assertEquals('', $string->formatted);
-        $this->assertEquals(null, $string->value);
+        $this->assertEquals(NullValue::class, get_class($string));
 
         $string = StringValue::from('Hello World!');
         $this->assertEquals('Hello World!', $string->formatted);

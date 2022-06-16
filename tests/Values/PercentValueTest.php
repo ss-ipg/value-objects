@@ -1,9 +1,9 @@
 <?php
 
-namespace SecureSpace\Tests\Unit\ValueObjects;
+namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\PercentValue;
+use SecureSpace\ValueObjects\Values\PercentValue;
 
 class PercentValueTest extends TestCase
 {

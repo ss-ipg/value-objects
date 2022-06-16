@@ -1,9 +1,14 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Values;
 
 class BooleanValue extends AbstractValue
 {
+    public static function cast($value): bool
+    {
+        return (bool) $value;
+    }
+
     public function setValue($value): self
     {
         $this->value = is_null($value) ? null : (bool) $value;

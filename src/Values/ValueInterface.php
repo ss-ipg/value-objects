@@ -1,6 +1,6 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Values;
 
 interface ValueInterface
 {

@@ -1,13 +1,15 @@
 <?php
 
-namespace SecureSpace\ValueObjects;
+namespace SecureSpace\ValueObjects\Values;
+
+use SecureSpace\ValueObjects\Exceptions\UnsupportedValueType;
 
 abstract class AbstractValue implements ValueInterface
 {
     /** Human-readable readable string representing the value of the value.  */
     public string $formatted;
 
-    public \callable | \Closure | null $formatter;
+    public \Closure | null $formatter;
 
     public mixed $value;
 
@@ -27,9 +29,14 @@ abstract class AbstractValue implements ValueInterface
 
     abstract public function supports($value): bool;
 
-    public static function from($value): static
+    /** Cast the value into the required type. */
+    abstract public static function cast($value): mixed;
+
+    public static function from($value): static | NullValue
     {
-        return new static(is_null($value) ? null : $value);
+        return is_null($value)
+            ? new NullValue(null)
+            : new static($value);
     }
 
     public function format(\callable | \Closure | null $formatter = null): string
@@ -70,13 +77,18 @@ abstract class AbstractValue implements ValueInterface
         return $this;
     }
 
+    /** @throws UnsupportedValueType */
     public function setValue($value): self
     {
-        $this->value = $this->supports($value)
-            ? $value
-            : null;
+        if (! $this->supports($value)) {
+            throw new UnsupportedValueType(sprintf('%s does not support values of type `%s`.',
+                get_class($this),
+                gettype($value)
+            ));
+        }
 
-        $this->setFormattedValue($value);
+        $this->value = $value;
+        $this->setFormattedValue($this->value);
 
         return $this;
     }

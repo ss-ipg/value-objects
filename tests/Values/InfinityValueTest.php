@@ -1,9 +1,9 @@
 <?php
 
-namespace SecureSpace\Tests\Unit\ValueObjects;
+namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\InfinityValue;
+use SecureSpace\ValueObjects\Values\InfinityValue;
 
 class InfinityValueTest extends TestCase
 {
