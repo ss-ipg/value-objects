@@ -7,6 +7,15 @@ use SecureSpace\ValueObjects\NumberValue;
 
 class AbstractValueTest extends TestCase
 {
+    public function testGetValue(): void
+    {
+        $number = NumberValue::from(617);
+        $this->assertEquals(617, $number->getValue());
+
+        $number->setValue(821);
+        $this->assertEquals(821, $number->getValue());
+    }
+
     public function testSetValue(): void
     {
         $number = NumberValue::from(721);
