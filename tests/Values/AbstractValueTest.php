@@ -3,6 +3,7 @@
 namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
+use SecureSpace\ValueObjects\Exceptions\UnsupportedValueType;
 use SecureSpace\ValueObjects\Values\IntegerValue;
 
 class AbstractValueTest extends TestCase
@@ -25,6 +26,9 @@ class AbstractValueTest extends TestCase
         $number->setValue(1021);
         $this->assertEquals(1021, $number->value);
         $this->assertEquals('1,021', $number->formatted);
+
+        $this->expectException(UnsupportedValueType::class);
+        $number->setValue('foo bar');
     }
 
     public function testToArray(): void

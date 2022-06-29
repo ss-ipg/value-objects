@@ -4,6 +4,11 @@ namespace SecureSpace\ValueObjects\Values;
 
 class NullValue extends AbstractValue
 {
+    public function __construct()
+    {
+        parent::__construct(null);
+    }
+
     public static function cast($value): mixed
     {
         return null;

@@ -8,6 +8,15 @@ use SecureSpace\ValueObjects\Values\NullValue;
 
 class BooleanValueTest extends TestCase
 {
+    public function testCast(): void
+    {
+        $this->assertTrue(BooleanValue::cast(1));
+        $this->assertTrue(BooleanValue::cast(true));
+        $this->assertFalse(BooleanValue::cast(0));
+        $this->assertFalse(BooleanValue::cast(false));
+        $this->assertFalse(BooleanValue::cast(null));
+    }
+
     public function testFrom(): void
     {
         $bool = BooleanValue::from(null);
