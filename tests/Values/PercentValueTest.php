@@ -51,6 +51,10 @@ class PercentValueTest extends TestCase
         $this->assertEquals('33.33%', $percent->formatted);
         $this->assertEquals(0.3333333333333333, $percent->value);
 
+        $percent = PercentValue::fromFraction(10, 5);
+        $this->assertEquals('200.00%', $percent->formatted);
+        $this->assertEquals(2.0, $percent->value);
+
         $percent = PercentValue::fromFraction(10, 21)->setPrecision(5);
         $this->assertEquals('47.61905%', $percent->formatted);
         $this->assertEquals(5, $percent->precision);

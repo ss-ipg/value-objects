@@ -26,6 +26,9 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "scripts": {
+    "coverage": [
+      "@php -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-html tests/Coverage/"
+    ],
     "test": [
       "@php phpunit"
     ]

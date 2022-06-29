@@ -8,6 +8,17 @@ use SecureSpace\ValueObjects\Values\StringValue;
 
 class StringValueTest extends TestCase
 {
+    public function testCast(): void
+    {
+        $this->assertEquals('foo', StringValue::cast('foo'));
+        $this->assertEquals('FOO', StringValue::cast('FOO'));
+        $this->assertEquals('123', StringValue::cast(123));
+        $this->assertEquals('123', StringValue::cast(123.00));
+        $this->assertEquals('', StringValue::cast(null));
+        $this->assertEquals('1', StringValue::cast(true));
+        $this->assertEquals('', StringValue::cast(false));
+    }
+
     public function testFrom(): void
     {
         $string = StringValue::from(null);

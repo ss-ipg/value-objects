@@ -2,6 +2,7 @@
 
 namespace SecureSpace\ValueObjects\Values;
 
+use Closure;
 use SecureSpace\ValueObjects\Exceptions\UnsupportedValueType;
 
 abstract class AbstractValue implements ValueInterface
@@ -9,7 +10,7 @@ abstract class AbstractValue implements ValueInterface
     /** Human-readable readable string representing the value of the value.  */
     public string $formatted;
 
-    public \Closure | null $formatter;
+    public Closure | null $formatter;
 
     public mixed $value;
 
@@ -35,11 +36,11 @@ abstract class AbstractValue implements ValueInterface
     public static function from($value): static | NullValue
     {
         return is_null($value)
-            ? new NullValue(null)
+            ? new NullValue()
             : new static($value);
     }
 
-    public function format(\callable | \Closure | null $formatter = null): string
+    public function format(callable | Closure | null $formatter = null): string
     {
         $this->formatter = $formatter;
 
@@ -48,7 +49,7 @@ abstract class AbstractValue implements ValueInterface
             : $this->toString();
     }
 
-    public function formatWith(\callable | \Closure $formatter): self
+    public function formatWith(callable | Closure $formatter): self
     {
         $this->formatter = $formatter;
         $this->formatted = $formatter($this);

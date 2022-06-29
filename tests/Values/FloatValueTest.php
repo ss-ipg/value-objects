@@ -8,6 +8,13 @@ use SecureSpace\ValueObjects\Values\NullValue;
 
 class FloatValueTest extends TestCase
 {
+    public function testCast(): void
+    {
+        $this->assertEquals(1.0, FloatValue::cast(1));
+        $this->assertEquals(1.0, FloatValue::cast(1.0));
+        $this->assertEquals(null, FloatValue::cast(null));
+    }
+
     public function testFrom(): void
     {
         $float = FloatValue::from(null);
