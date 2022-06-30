@@ -36,6 +36,10 @@ class FloatValueTest extends TestCase
         $this->assertEquals('-98.76', $float->formatted);
         $this->assertEquals(-98.76, $float->value);
 
+        $float = FloatValue::from(123);
+        $this->assertEquals('123.00', $float->formatted);
+        $this->assertEquals(123.00, $float->value);
+
         $this->assertEquals(
             expected: 'Pi: 3.14159',
             actual: FloatValue::from(3.14159)
