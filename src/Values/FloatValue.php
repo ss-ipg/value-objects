@@ -25,7 +25,7 @@ class FloatValue extends AbstractValue
 
     public function supports($value): bool
     {
-        return is_float($value);
+        return is_float($value) || is_int($value);
     }
 
     public function toString(): string
