@@ -10,8 +10,13 @@ class PercentValue extends FloatValue
     ): self | NullValue
     {
         return 0 === $denominator
-            ? new NullValue(null)
+            ? new NullValue()
             : new self((float) $numerator / $denominator);
+    }
+
+    public static function fromWhole(float | int | FloatValue | IntegerValue $value): self | NullValue
+    {
+        return new self($value / 100);
     }
 
     public function toString(): string
