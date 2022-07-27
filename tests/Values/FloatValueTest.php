@@ -69,4 +69,15 @@ class FloatValueTest extends TestCase
         $this->assertEquals('0.12345679', $float->setPrecision(8)->formatted);
         $this->assertEquals('0.123456789', $float->setPrecision(9)->formatted);
     }
+
+    public function testToArray(): void
+    {
+        $expected = [
+            'formatted' => '0.123',
+            'precision' => 3,
+            'value' => 0.123456,
+        ];
+
+        $this->assertEquals($expected, FloatValue::from(0.123456)->setPrecision(3)->toArray());
+    }
 }

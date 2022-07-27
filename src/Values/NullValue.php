@@ -14,7 +14,7 @@ class NullValue extends AbstractValue
         return null;
     }
 
-    public static function from($value): static
+    public static function from($value = null): static
     {
         return new self(null);
     }
