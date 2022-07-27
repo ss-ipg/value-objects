@@ -28,6 +28,13 @@ class FloatValue extends AbstractValue
         return is_float($value) || is_int($value);
     }
 
+    public function toArray(): array
+    {
+        return array_merge(parent::toArray(), [
+            'precision' => $this->precision,
+        ]);
+    }
+
     public function toString(): string
     {
         return number_format($this->value, $this->precision);
