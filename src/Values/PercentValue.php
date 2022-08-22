@@ -9,7 +9,7 @@ class PercentValue extends FloatValue
         float | int | FloatValue | IntegerValue $denominator,
     ): self | NullValue
     {
-        return 0 === $denominator
+        return 0.0 === (float) $denominator
             ? new NullValue()
             : new self((float) $numerator / $denominator);
     }
