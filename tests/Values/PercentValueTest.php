@@ -3,6 +3,7 @@
 namespace SecureSpace\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
+use SecureSpace\ValueObjects\Values\NullValue;
 use SecureSpace\ValueObjects\Values\PercentValue;
 
 class PercentValueTest extends TestCase
@@ -39,8 +40,7 @@ class PercentValueTest extends TestCase
         $percent = PercentValue::from(0.10)
             ->setPrecision(0)
             ->formatWith(fn(PercentValue $p) => "$p Off")
-            ->toArray()
-        ;
+            ->toArray();
 
         $this->assertEquals('10% Off', $percent['formatted']);
     }
@@ -63,6 +63,15 @@ class PercentValueTest extends TestCase
         $percent = PercentValue::fromFraction(1, 0);
         $this->assertEquals('', $percent->formatted);
         $this->assertNull($percent->value);
+    }
+
+    public function testFromFractionWithZeroDenominator(): void
+    {
+        $percent = PercentValue::fromFraction(1, 0);
+        $this->assertInstanceOf(NullValue::class, $percent);
+
+        $percent = PercentValue::fromFraction(1, 0.0);
+        $this->assertInstanceOf(NullValue::class, $percent);
     }
 
     public function testFromWhole(): void
@@ -93,8 +102,7 @@ class PercentValueTest extends TestCase
         $percent = PercentValue::fromWhole(10)
             ->setPrecision(0)
             ->formatWith(fn(PercentValue $p) => "$p Off")
-            ->toArray()
-        ;
+            ->toArray();
 
         $this->assertEquals('10% Off', $percent['formatted']);
     }
