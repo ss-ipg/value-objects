@@ -106,4 +106,13 @@ class PercentValueTest extends TestCase
 
         $this->assertEquals('10% Off', $percent['formatted']);
     }
+
+    public function testUsesFormatterWhenPrinted(): void
+    {
+        $percent = PercentValue::fromWhole(10)
+            ->setPrecision(0)
+            ->formatWith(fn(PercentValue $p) => "$p Off");
+
+        $this->assertEquals('10% Off', (string) $percent);
+    }
 }
