@@ -21,6 +21,8 @@ class PercentValue extends FloatValue
 
     public function toString(): string
     {
-        return number_format($this->value * 100, $this->precision) . '%';
+        return $this->formatter
+            ? $this->formatted
+            : number_format($this->value * 100, $this->precision) . '%';
     }
 }
