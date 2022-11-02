@@ -23,12 +23,11 @@ class FloatValue extends AbstractValue
         return $this;
     }
 
-    /** @throws UnsupportedValueType */
     public function setValue($value): self
     {   
-			  parent::setValue($value);
+        parent::setValue($value);
 
-				$this->value = $this->value ? round($this->value, ini_get('precision')) : $this->value;
+        $this->value = $this->value ? round($this->value, ini_get('precision')) : $this->value;
         $this->setFormattedValue($this->value);
 
         return $this;
