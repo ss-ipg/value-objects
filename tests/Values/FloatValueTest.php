@@ -53,6 +53,10 @@ class FloatValueTest extends TestCase
             ->toArray()
         ;
         $this->assertEquals('pH: 5.65', $float['formatted']);
+        
+        $float = FloatValue::from(1.8570000000000002);
+        $this->assertEquals('1.86', $float->formatted);
+        $this->assertEquals(1.857, $float->value);
     }
 
     public function testPrecision(): void
