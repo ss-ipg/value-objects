@@ -1,6 +1,7 @@
 {
   "name": "ss-ipg/value-objects",
   "type": "library",
+  "license": "MIT",
   "require": {
     "php": "^8.1",
     "ext-intl": "*"
