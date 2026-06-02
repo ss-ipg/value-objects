@@ -1,25 +1,36 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Values;
+namespace SSIPG\ValueObjects\Values;
 
-class StringValue extends AbstractValue
+use SSIPG\ValueObjects\Contracts\Equatable;
+use SSIPG\ValueObjects\Contracts\ValueInterface;
+
+/** @extends AbstractValue<string> */
+class StringValue extends AbstractValue implements Equatable
 {
-    public static function cast($value): string
+    public static function cast(int|float|string|bool|null $value): string
     {
         return (string) $value;
     }
 
-    public function setValue($value): self
+    /** @param ValueInterface<mixed> $n */
+    public function eq(ValueInterface $n): bool
     {
-        $this->value = is_null($value) ? null : (string) $value;
+        return $n instanceof self && $this->getValue() === $n->getValue();
+    }
+
+    public function setValue(mixed $value): static
+    {
+        parent::setValue($value);
+
+        $this->value = (string) $this->value;
 
         return $this;
     }
 
-    /** @codeCoverageIgnore */
-    public function supports($value): bool
+    public function supports(mixed $value): bool
     {
-        return is_string($value);
+        return is_string($value) || is_int($value) || is_float($value);
     }
 
     public function toString(): string

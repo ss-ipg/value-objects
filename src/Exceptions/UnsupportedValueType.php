@@ -1,7 +1,5 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Exceptions;
+namespace SSIPG\ValueObjects\Exceptions;
 
-class UnsupportedValueType extends \Exception
-{
-}
+class UnsupportedValueType extends \Exception {}

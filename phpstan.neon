@@ -1,0 +1,19 @@
+parameters:
+    ignoreErrors:
+        - identifier: argument.named
+        -
+            identifier: method.alreadyNarrowedType
+            path: tests/*
+        -
+            # AbstractValue::from() accepts mixed at runtime (validated by supports()) but
+            # the static return is bound to TValue. PHPStan can't reconcile the wider input
+            # type with the templated return type; a known limitation of generic static
+            # factories. Runtime behaviour is correct; this only suppresses the false positive.
+            identifier: return.type
+            path: src/Values/AbstractValue.php
+
+    level: 10
+
+    paths:
+        - src
+        - tests

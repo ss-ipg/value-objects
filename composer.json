@@ -1,14 +1,20 @@
 {
   "name": "ss-ipg/value-objects",
+  "description": "Type-safe value objects for PHP primitives with built-in formatting.",
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "ext-intl": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.0",
+    "laravel/pint": "^1.29",
+    "phpstan/phpstan": "^2.2",
+    "phpunit/phpunit": "^12.5",
     "roave/security-advisories": "dev-latest"
+  },
+  "suggest": {
+    "phpunit/phpunit": "Required to use SSIPG\\ValueObjects\\Testing helpers (ValueComparator, ValueObjectExtension)"
   },
   "config": {
     "preferred-install": "dist",
@@ -16,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "SecureSpace\\ValueObjects\\": "src/"
+      "SSIPG\\ValueObjects\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "SecureSpace\\ValueObjects\\Tests\\": "tests/"
+      "SSIPG\\ValueObjects\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "stable",
