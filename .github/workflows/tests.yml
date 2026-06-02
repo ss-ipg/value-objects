@@ -20,11 +20,13 @@ jobs:
     name: PHP ${{ matrix.php }}
 
     steps:
+      # https://github.com/actions/checkout/releases/tag/v6.0.3
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
+      # https://github.com/shivammathur/setup-php/releases/tag/2.37.1
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc
         with:
           php-version: ${{ matrix.php }}
           extensions: intl
@@ -42,11 +44,13 @@ jobs:
     name: Pint
 
     steps:
+      # https://github.com/actions/checkout/releases/tag/v6.0.3
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
+      # https://github.com/shivammathur/setup-php/releases/tag/2.37.1
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc
         with:
           php-version: '8.5'
           extensions: intl
@@ -64,11 +68,13 @@ jobs:
     name: PHPStan
 
     steps:
+      # https://github.com/actions/checkout/releases/tag/v6.0.3
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
+      # https://github.com/shivammathur/setup-php/releases/tag/2.37.1
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc
         with:
           php-version: '8.5'
           extensions: intl
