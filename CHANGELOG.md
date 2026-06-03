@@ -28,8 +28,9 @@ PHP 8.4+ forward compatibility (post-`round()` rewrite), plus type-safety and co
 - **BREAKING:** Stricter `supports()` contracts across primitive types. Each type accepts the scalars PHP coerces losslessly and throws `UnsupportedValueType` for everything else:
   - `BooleanValue`: `bool | int`
   - `StringValue`: `string | int | float`
-  - `IntegerValue`: `int` or whole-number finite floats
-  - `FloatValue`: `int | float`
+  - `IntegerValue`: `int`, whole-number finite floats, or whole-number numeric strings
+  - `FloatValue`: `int | float | numeric-string`
+  - `CurrencyValue` and `PercentValue` inherit `FloatValue`'s acceptance. Non-numeric strings, arrays, and objects still throw.
 - **BREAKING:** `FloatValue` no longer rounds its internal value at construction. Precision is display-only via `toString()` / `->formatted`.
 - **BREAKING:** `NumericTrait::eq()` is now precision-aware (epsilon comparison). Cross-type numerics with equal value compare as equal (e.g. `IntegerValue::from(962)->eq(FloatValue::from(962.0))` is `true`).
 - **BREAKING:** `gt` / `gte` / `lt` / `lte` route through `eq()` for consistency with epsilon-aware equality. Within-epsilon values report `gte === true` and `gt === false` from both directions.

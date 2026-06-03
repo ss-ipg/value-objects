@@ -11,7 +11,7 @@ v2 is a major release focused on type safety, contract strictness, and developer
 ### TL;DR
 
 - **`NullValue` is removed.** `Foo::from(null)` now returns `null`. Update consumers from `instanceof NullValue` to `=== null` (or use `?->`).
-- **Stricter input validation** on `Boolean/String/Integer/Float`. Incompatible inputs throw `UnsupportedValueType` instead of silently coercing. `cast()` static helpers also narrow their input type to `int|float|string|bool|null`.
+- **Stricter input validation** on `Boolean/String/Integer/Float`. Incompatible inputs throw `UnsupportedValueType` instead of silently coercing. `FloatValue` and `IntegerValue` do accept numeric strings (`"100.50"`, `"42"`); `cast()` static helpers narrow their input type to `int|float|string|bool|null`.
 - **`FloatValue` no longer rounds at construction.** Precision is display-only.
 - **`InfinityValue` is removed.** Use `FloatValue::from(INF)`.
 - **`NumericTrait::eq()` is precision-aware** and `gt`/`gte`/`lt`/`lte` route through it. ULP-noisy floats within epsilon now compare equal; cross-type numeric equality (e.g. `IntegerValue(962) eq FloatValue(962.0)`) is `true`.
@@ -81,14 +81,16 @@ In v1, `BooleanValue` and `StringValue` silently coerced any input via `(bool)` 
 
 The accepted-input matrix (after `from()` short-circuits `null`):
 
-| Type           | `supports()` accepts              | `supports()` rejects (throws `UnsupportedValueType`)  |
-|----------------|-----------------------------------|-------------------------------------------------------|
-| `BooleanValue` | `bool`, `int`                     | strings, floats, arrays, objects                      |
-| `StringValue`  | `string`, `int`, `float`          | arrays, objects, bools                                |
-| `IntegerValue` | `int`, whole-number finite floats | fractional floats, INF, NaN, strings, arrays, objects |
-| `FloatValue`   | `int`, `float`                    | strings, arrays, objects                              |
+| Type           | `supports()` accepts                                            | `supports()` rejects (throws `UnsupportedValueType`)              |
+|----------------|-----------------------------------------------------------------|-------------------------------------------------------------------|
+| `BooleanValue` | `bool`, `int`                                                   | strings, floats, arrays, objects                                  |
+| `StringValue`  | `string`, `int`, `float`                                        | arrays, objects, bools                                            |
+| `IntegerValue` | `int`, whole-number finite floats, whole-number numeric strings | fractional floats, INF, NaN, non-numeric strings, arrays, objects |
+| `FloatValue`   | `int`, `float`, numeric strings                                 | non-numeric strings, arrays, objects                              |
 
 `null` is handled by `from()` itself (returns `null`, see section 1) and never reaches `supports()`. Direct construction (`new IntegerValue(null)`) does reach `supports()` and throws.
+
+`FloatValue` and `IntegerValue` accept numeric strings (`is_numeric($v) === true`) so values that arrive as strings (e.g. `"100.50"`, `"42"`) no longer need to be cast at the call site. `IntegerValue` continues to reject any input with a fractional part, including fractional numeric strings like `"5.5"`.
 
 ```php
 // v1

@@ -3,6 +3,7 @@
 namespace SSIPG\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
+use SSIPG\ValueObjects\Exceptions\UnsupportedValueType;
 use SSIPG\ValueObjects\Values\FloatValue;
 
 class FloatValueTest extends TestCase
@@ -85,6 +86,29 @@ class FloatValueTest extends TestCase
 
         $float = FloatValue::from(INF)->formatWith(fn (FloatValue $f) => is_infinite($f->value) ? 'INF' : (string) $f);
         $this->assertEquals('INF', $float->formatted);
+    }
+
+    public function testFromAcceptsNumericString(): void
+    {
+        $this->assertSame(100.5, FloatValue::from('100.50')->value);
+        $this->assertSame(-98.76, FloatValue::from('-98.76')->value);
+        $this->assertSame(150.0, FloatValue::from('1.5e2')->value);
+        $this->assertSame(0.5, FloatValue::from('.5')->value);
+        $this->assertSame(42.0, FloatValue::from('42')->value);
+    }
+
+    public function testFromRejectsNonNumericString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        FloatValue::from('hello');
+    }
+
+    public function testFromRejectsEmptyString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        FloatValue::from('');
     }
 
     public function testToArray(): void

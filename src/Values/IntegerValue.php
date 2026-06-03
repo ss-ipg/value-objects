@@ -34,15 +34,29 @@ class IntegerValue extends AbstractValue implements Equatable
     {
         parent::setValue($value);
 
-        $this->value = (int) $this->value;
+        // Two-step cast handles scientific-notation strings ("1.5e2" → 150, not 1).
+        $this->value = (int) (float) $this->value;
 
         return $this;
     }
 
     public function supports(mixed $value): bool
     {
-        return is_int($value)
-            || (is_float($value) && is_finite($value) && floor($value) === $value);
+        if (is_int($value)) {
+            return true;
+        }
+
+        if (is_float($value)) {
+            return is_finite($value) && floor($value) === $value;
+        }
+
+        if (is_string($value) && is_numeric($value)) {
+            $asFloat = (float) $value;
+
+            return is_finite($asFloat) && floor($asFloat) === $asFloat;
+        }
+
+        return false;
     }
 
     public function toString(): string

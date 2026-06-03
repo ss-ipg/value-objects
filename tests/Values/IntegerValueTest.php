@@ -46,6 +46,33 @@ class IntegerValueTest extends TestCase
         IntegerValue::from(NAN);
     }
 
+    public function testFromAcceptsIntegerString(): void
+    {
+        $this->assertSame(42, IntegerValue::from('42')->value);
+        $this->assertSame(-7, IntegerValue::from('-7')->value);
+        $this->assertSame(0, IntegerValue::from('0')->value);
+    }
+
+    public function testFromAcceptsWholeNumberNumericString(): void
+    {
+        $this->assertSame(150, IntegerValue::from('1.5e2')->value);
+        $this->assertSame(5, IntegerValue::from('5.0')->value);
+    }
+
+    public function testFromRejectsFractionalNumericString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        IntegerValue::from('5.5');
+    }
+
+    public function testFromRejectsNonNumericString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        IntegerValue::from('hello');
+    }
+
     public function testIsDivisibleBy(): void
     {
         $this->assertTrue(IntegerValue::from(100)->isDivisibleBy(IntegerValue::from(1)));

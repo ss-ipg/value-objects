@@ -7,6 +7,14 @@ use SSIPG\ValueObjects\Values\PercentValue;
 
 class PercentValueTest extends TestCase
 {
+    public function testFromAcceptsNumericString(): void
+    {
+        $percent = PercentValue::from('0.5');
+
+        $this->assertSame(0.5, $percent->value);
+        $this->assertEquals('50.00%', $percent->formatted);
+    }
+
     public function testFrom(): void
     {
         $this->assertNull(PercentValue::from(null));

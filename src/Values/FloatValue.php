@@ -41,7 +41,9 @@ class FloatValue extends AbstractValue implements Equatable
 
     public function supports(mixed $value): bool
     {
-        return is_float($value) || is_int($value);
+        return is_float($value)
+            || is_int($value)
+            || (is_string($value) && is_numeric($value));
     }
 
     /** @return array{value: float, formatted: string, precision: int} */

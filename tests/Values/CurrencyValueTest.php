@@ -7,6 +7,14 @@ use SSIPG\ValueObjects\Values\CurrencyValue;
 
 class CurrencyValueTest extends TestCase
 {
+    public function testFromAcceptsNumericString(): void
+    {
+        $currency = CurrencyValue::from('100.50');
+
+        $this->assertSame(100.5, $currency->value);
+        $this->assertEquals('$100.50', $currency->formatted);
+    }
+
     public function testFormat(): void
     {
         $this->assertEquals(
