@@ -1,13 +1,25 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Tests\Values;
+namespace SSIPG\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\Values\BooleanValue;
-use SecureSpace\ValueObjects\Values\NullValue;
+use SSIPG\ValueObjects\Values\BooleanValue;
+use SSIPG\ValueObjects\Values\IntegerValue;
+use SSIPG\ValueObjects\Values\StringValue;
 
 class BooleanValueTest extends TestCase
 {
+    public function testEq(): void
+    {
+        $this->assertTrue(BooleanValue::from(true)->eq(BooleanValue::from(true)));
+        $this->assertTrue(BooleanValue::from(false)->eq(BooleanValue::from(false)));
+        $this->assertFalse(BooleanValue::from(true)->eq(BooleanValue::from(false)));
+
+        // Cross-type comparisons are never equal.
+        $this->assertFalse(BooleanValue::from(true)->eq(IntegerValue::from(1)));
+        $this->assertFalse(BooleanValue::from(false)->eq(StringValue::from('')));
+    }
+
     public function testCast(): void
     {
         $this->assertTrue(BooleanValue::cast(1));
@@ -19,10 +31,9 @@ class BooleanValueTest extends TestCase
 
     public function testFrom(): void
     {
-        $bool = BooleanValue::from(null);
-        $this->assertEquals(NullValue::class, get_class($bool));
+        $this->assertNull(BooleanValue::from(null));
 
-        $boolToSmiley = fn(BooleanValue $bool) => $bool->value ? ':-)' : ':-(';
+        $boolToSmiley = fn (BooleanValue $bool) => $bool->value ? ':-)' : ':-(';
 
         $bool = BooleanValue::from(true)->formatWith($boolToSmiley);
         $this->assertEquals(':-)', $bool->formatted);

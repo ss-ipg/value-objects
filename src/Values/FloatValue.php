@@ -1,21 +1,28 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Values;
+namespace SSIPG\ValueObjects\Values;
 
-use SecureSpace\ValueObjects\Traits\NumericTrait;
+use SSIPG\ValueObjects\Contracts\Equatable;
+use SSIPG\ValueObjects\Traits\NumericTrait;
 
-class FloatValue extends AbstractValue
+/** @extends AbstractValue<float> */
+class FloatValue extends AbstractValue implements Equatable
 {
     use NumericTrait;
 
     public int $precision = 2;
 
-    public static function cast($value): float
+    public static function cast(int|float|string|bool|null $value): float
     {
         return (float) $value;
     }
 
-    public function setPrecision(int $precision): self
+    public function getComparisonPrecision(): int
+    {
+        return $this->precision;
+    }
+
+    public function setPrecision(int $precision): static
     {
         $this->precision = $precision;
         $this->reformatValue();
@@ -23,21 +30,23 @@ class FloatValue extends AbstractValue
         return $this;
     }
 
-    public function setValue($value): self
-    {   
+    public function setValue(mixed $value): static
+    {
         parent::setValue($value);
 
-        $this->value = $this->value ? round($this->value, ini_get('precision')) : $this->value;
-        $this->setFormattedValue($this->value);
+        $this->value = (float) $this->value;
 
         return $this;
-    } 
-
-    public function supports($value): bool
-    {
-        return is_float($value) || is_int($value);
     }
 
+    public function supports(mixed $value): bool
+    {
+        return is_float($value)
+            || is_int($value)
+            || (is_string($value) && is_numeric($value));
+    }
+
+    /** @return array{value: float, formatted: string, precision: int} */
     public function toArray(): array
     {
         return array_merge(parent::toArray(), [

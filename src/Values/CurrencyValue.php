@@ -1,6 +1,6 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Values;
+namespace SSIPG\ValueObjects\Values;
 
 use NumberFormatter;
 
@@ -8,9 +8,7 @@ class CurrencyValue extends FloatValue
 {
     public string $locale = 'en-US';
 
-    public int $precision = 2;
-
-    public function setLocale(string $locale): self
+    public function setLocale(string $locale): static
     {
         $this->locale = $locale;
         $this->reformatValue();
@@ -23,6 +21,10 @@ class CurrencyValue extends FloatValue
         $numberFormatter = new NumberFormatter($this->locale, NumberFormatter::CURRENCY);
         $numberFormatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $this->precision);
 
-        return $numberFormatter->format($this->value);
+        $formatted = $numberFormatter->format($this->value);
+
+        return $formatted === false
+            ? ''
+            : $formatted;
     }
 }

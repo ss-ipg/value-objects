@@ -1,10 +1,10 @@
 <?php
 
-namespace SecureSpace\ValueObjects\Tests\Values;
+namespace SSIPG\ValueObjects\Tests\Values;
 
 use PHPUnit\Framework\TestCase;
-use SecureSpace\ValueObjects\Values\FloatValue;
-use SecureSpace\ValueObjects\Values\NullValue;
+use SSIPG\ValueObjects\Exceptions\UnsupportedValueType;
+use SSIPG\ValueObjects\Values\FloatValue;
 
 class FloatValueTest extends TestCase
 {
@@ -18,7 +18,7 @@ class FloatValueTest extends TestCase
     public function testFrom(): void
     {
         $float = FloatValue::from(null);
-        $this->assertEquals(NullValue::class, get_class($float));
+        $this->assertNull($float);
 
         $float = FloatValue::from(0.0);
         $this->assertEquals('0.00', $float->formatted);
@@ -44,19 +44,19 @@ class FloatValueTest extends TestCase
             expected: 'Pi: 3.14159',
             actual: FloatValue::from(3.14159)
                 ->setPrecision(5)
-                ->format(fn(FloatValue $p) => "Pi: $p")
+                ->format(fn (FloatValue $p) => "Pi: $p")
         );
 
         $float = FloatValue::from(5.65)
             ->setPrecision(2)
-            ->formatWith(fn(FloatValue $p) => "pH: $p")
-            ->toArray()
-        ;
+            ->formatWith(fn (FloatValue $p) => "pH: $p")
+            ->toArray();
+
         $this->assertEquals('pH: 5.65', $float['formatted']);
-        
+
         $float = FloatValue::from(1.8570000000000002);
         $this->assertEquals('1.86', $float->formatted);
-        $this->assertEquals(1.857, $float->value);
+        $this->assertEquals(1.8570000000000002, $float->value);
     }
 
     public function testPrecision(): void
@@ -74,12 +74,49 @@ class FloatValueTest extends TestCase
         $this->assertEquals('0.123456789', $float->setPrecision(9)->formatted);
     }
 
+    public function testInfinity(): void
+    {
+        $float = FloatValue::from(INF);
+        $this->assertTrue(is_infinite($float->value));
+        $this->assertSame(INF, $float->value);
+
+        $float = FloatValue::from(-INF);
+        $this->assertTrue(is_infinite($float->value));
+        $this->assertSame(-INF, $float->value);
+
+        $float = FloatValue::from(INF)->formatWith(fn (FloatValue $f) => is_infinite($f->value) ? 'INF' : (string) $f);
+        $this->assertEquals('INF', $float->formatted);
+    }
+
+    public function testFromAcceptsNumericString(): void
+    {
+        $this->assertSame(100.5, FloatValue::from('100.50')->value);
+        $this->assertSame(-98.76, FloatValue::from('-98.76')->value);
+        $this->assertSame(150.0, FloatValue::from('1.5e2')->value);
+        $this->assertSame(0.5, FloatValue::from('.5')->value);
+        $this->assertSame(42.0, FloatValue::from('42')->value);
+    }
+
+    public function testFromRejectsNonNumericString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        FloatValue::from('hello');
+    }
+
+    public function testFromRejectsEmptyString(): void
+    {
+        $this->expectException(UnsupportedValueType::class);
+
+        FloatValue::from('');
+    }
+
     public function testToArray(): void
     {
         $expected = [
             'formatted' => '0.123',
             'precision' => 3,
-            'value' => 0.123456,
+            'value'     => 0.123456,
         ];
 
         $this->assertEquals($expected, FloatValue::from(0.123456)->setPrecision(3)->toArray());
